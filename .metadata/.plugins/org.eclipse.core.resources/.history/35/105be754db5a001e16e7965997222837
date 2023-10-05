@@ -409,21 +409,19 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
                         if (goatPlaced.isEditable()) {
                             goatPlaced.setText(labels[finalI][finalJ].getText());
                         }
-                        else if (goatSourceTextField.isEditable() && goatSourceTextField.getText().isEmpty()) {
+                        else if (goatDestinationTextField.isEditable() && goatDestinationTextField.getText().isEmpty()) {
                                 goatSourceTextField.setText(labels[finalI][finalJ].getText());                    }
                         
-                        else if (goatDestinationTextField.isEditable() && goatDestinationTextField.getText().isEmpty()){ 
+                        else{ 
                             
                             goatDestinationTextField.setText(labels[finalI][finalJ].getText());
 
                         }  
      
-                        else if (SourceTextField.isEditable() && SourceTextField.getText().isEmpty()) {
-                            SourceTextField.setText(labels[finalI][finalJ].getText()); 
-                        }
+                        if (DestinationTextField.isEditable() && goatDestinationTextField.getText().isEmpty()) {
+                            SourceTextField.setText(labels[finalI][finalJ].getText());                    }
                         else if (DestinationTextField.isEditable() && DestinationTextField.getText().isEmpty()) {
-                        	DestinationTextField.setText(labels[finalI][finalJ].getText());                   
-                         }
+                            SourceTextField.setText(labels[finalI][finalJ].getText());                    }
                      }
                 });
             }

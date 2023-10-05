@@ -862,6 +862,28 @@ public class BotFrame extends JFrame implements ActionListener {
 	        }
         printBoard();
 
+        for (int i=0 ;i<=4 ;i++) {
+            for(int j=0 ;j<=4 ;j++){
+                final int finalI = i;
+                final int finalJ = j;
+                labels[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
+                   public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        if (goatPlaced.isEditable()) {
+                            goatPlaced.setText(labels[finalI][finalJ].getText());
+                        }
+                        else if (goatSourceTextField.isEditable() && goatSourceTextField.getText().isEmpty()) {
+                                goatSourceTextField.setText(labels[finalI][finalJ].getText()); 
+                        }
+                        
+                        else{ 
+                            
+                            goatDestinationTextField.setText(labels[finalI][finalJ].getText());
+
+                        }  
+                     }
+                });
+            }
+        }
         // // board ko image display
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setBounds(0, 0, 751, 703);

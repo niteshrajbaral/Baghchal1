@@ -400,34 +400,6 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
 	        }
         printBoard();
 
-        for (int i=0 ;i<=4 ;i++) {
-            for(int j=0 ;j<=4 ;j++){
-                final int finalI = i;
-                final int finalJ = j;
-                labels[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
-                   public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        if (goatPlaced.isEditable()) {
-                            goatPlaced.setText(labels[finalI][finalJ].getText());
-                        }
-                        else if (goatSourceTextField.isEditable() && goatSourceTextField.getText().isEmpty()) {
-                                goatSourceTextField.setText(labels[finalI][finalJ].getText());                    }
-                        
-                        else if (goatDestinationTextField.isEditable() && goatDestinationTextField.getText().isEmpty()){ 
-                            
-                            goatDestinationTextField.setText(labels[finalI][finalJ].getText());
-
-                        }  
-     
-                        else if (SourceTextField.isEditable() && SourceTextField.getText().isEmpty()) {
-                            SourceTextField.setText(labels[finalI][finalJ].getText()); 
-                        }
-                        else if (DestinationTextField.isEditable() && DestinationTextField.getText().isEmpty()) {
-                        	DestinationTextField.setText(labels[finalI][finalJ].getText());                   
-                         }
-                     }
-                });
-            }
-        }
         // // board ko image display
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setBounds(0, 0, 751, 703);

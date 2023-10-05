@@ -1,13 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EmptyBorder;
 
-public class MultiPlayFrame extends JFrame implements ActionListener {
+public class BotFrame extends JFrame implements ActionListener {
     private JPanel contentPane;
-    private JTextField SourceTextField;
-    private JTextField DestinationTextField;
+
     JTextField goat_killed;
     JTextField goat_remain;
     private JTextField goatPlaced;
@@ -25,6 +25,11 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
     int move = 1;
     int tigermove = 0;
     int goatused = 0;
+    int botSuggestSource;
+    int botSuggestDestination;
+    int singleEatingSource;
+    int singleEatingDestination;
+    int singleEatingPosition;
     static int GOAT=2,TIGER=1,EMPTY=0;
     JLabel[][] labels=new JLabel[5][5];
 
@@ -44,40 +49,543 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
             return "null.png";
     }
 
+    public int getBotSource(){
+        suggestMove();
+        System.out.println("bot suggest source " + botSuggestSource);
+        
+        return botSuggestSource;
+    }
+    public int getBotDestination(){
+    suggestMove();
+       
+        System.out.println("bot suggest destination " + botSuggestDestination);
+        return botSuggestDestination;
+    }
+    public boolean checkEating(int source, int destination){
+        if (source== 0) { if(destination== 2 && row[1]==2){ return true;}} 
+            if (source== 0) { if(destination== 10 && row[5]==2){ return true;}} 
+            if (source== 0) { if(destination== 12 && row[6]==2){ return true;}} 
+    
+    
+    
+            if (source== 1) { if(destination== 3 && row[2]==2){ return true;}}
+            if (source== 1) { if(destination== 11 && row[6]==2){ return true;}}
+        
+            if (source== 2) { if(destination== 0 && row[1]==2){ return true;}} 
+            if (source== 2) { if(destination== 4 && row[3]==2){ return true;}} 
+            if (source== 2) { if(destination== 12 && row[7]==2){ return true;}}
+            if (source== 2) { if(destination== 10 && row[6]==2){ return true;}} 
+            if (source== 2) { if(destination== 14 && row[8]==2){ return true;}} 
+    
+    
+            if (source== 3) { if(destination== 1 && row[2]==2){ return true;}}
+            if (source== 3) { if(destination== 13 && row[8]==2){ return true;}}
+    
+            if (source== 4) { if(destination== 2 && row[3]==2){ return true;}} 
+            if (source== 4) { if(destination== 14 && row[9]==2){ return true;}} 
+            if (source== 4) { if(destination== 12 && row[8]==2){ return true;}} 
+    
+            if (source== 5) { if(destination== 15 && row[10]==2){ return true;}}
+            if (source== 5) { if(destination== 7 && row[6]==2){ return true;}}
+    
+            if (source== 6) { if(destination== 16 && row[11]==2){ return true;}} 
+            if (source== 6) { if(destination== 18 && row[12]==2){ return true;}} 
+            if (source== 6) { if(destination== 8 && row[7]==2){ return true;}} 
+    
+    
+            if (source== 7) { if(destination== 5 && row[6]==2){ return true;}} 
+            if (source== 7) { if(destination== 9 && row[8]==2){ return true;}} 
+            if (source== 7) { if(destination== 17 && row[12]==2){ return true;}} 
+    
+            if (source== 8) { if(destination== 6 && row[7]==2){ return true;}} 
+            if (source== 8) { if(destination== 16 && row[12]==2){ return true;}} 
+            if (source== 8) { if(destination== 18 && row[13]==2){ return true;}} 
+    
+    
+            if (source== 9) { if(destination== 7 && row[8]==2){ return true;}}
+            if (source== 9) { if(destination== 19 && row[14]==2){ return true;}}
+    
+            if (source== 10) { if(destination== 0 && row[5]==2) {return true;}} 
+            if (source== 10) { if(destination== 20 && row[15]==2){ return true;}} 
+            if (source== 10) { if(destination== 12 && row[11]==2){ return true;}}
+            if (source== 10) { if(destination== 22 && row[16]==2){ return true;}} 
+            if (source== 10) { if(destination== 2 && row[6]==2) {return true;}}
+    
+    
+            if (source== 11) { if(destination== 1 && row[6]==2){ return true;}} 
+            if (source== 11) { if(destination== 13 && row[12]==2){ return true;}} 
+            if (source== 11) { if(destination== 21 && row[16]==2){ return true;}}
+            
+            if (source== 12) { if(destination== 0 && row[6]==2) {return true;}}
+            if (source== 12) { if(destination== 20 && row[16]==2){ return true;}}
+            if (source== 12) { if(destination== 4 && row[8]==2) {return true;}}
+            if (source== 12) { if(destination== 24 && row[18]==2){ return true;}}
+            if (source== 12) { if(destination== 2 && row[7]==2) {return true;}}
+            if (source== 12) { if(destination== 22 && row[17]==2){ return true;}}
+            if (source== 12) { if(destination== 10 && row[11]==2){ return true;}}
+            if (source== 12) { if(destination== 14 && row[13]==2){ return true;}}
+    
+            if (source== 13) { if(destination== 3 && row[8]==2) {return true;}} 
+            if (source== 13) { if(destination== 23 && row[18]==2){ return true;}} 
+            if (source== 13) { if(destination== 11 && row[12]==2){ return true;}} 
+    
+            if (source== 14) { if(destination== 22 && row[18]==2){ return true;}} 
+            if (source== 14) { if(destination== 4 && row[9]==2) {return true;}} 
+            if (source== 14) { if(destination== 12 && row[13]==2){ return true;}}
+            if (source== 14) { if(destination== 2 && row[8]==2) {return true;}} 
+            if (source== 14) { if(destination== 24 && row[19]==2){ return true;}}
+    
+            if (source== 15) { if(destination== 5 && row[10]==2){ return true;}}
+            if (source== 15) { if(destination== 17 && row[16]==2){ return true;}}
+    
+            if (source== 16) { if(destination== 6 && row[11]==2){ return true;}} 
+            if (source== 16) { if(destination== 8 && row[12]==2){ return true;}} 
+            if (source== 16) { if(destination== 18 && row[17]==2){ return true;}} 
+    
+    
+    
+            if (source== 17) { if(destination== 15 && row[16]==2){ return true;}} 
+            if (source== 17) { if(destination== 19 && row[18]==2){ return true;}} 
+            if (source== 17) { if(destination== 7 && row[12]==2){ return true;}} 
+    
+            if (source== 18) { if(destination== 6 && row[12]==2){ return true;}} 
+            if (source== 18) { if(destination== 16 && row[17]==2){ return true;}} 
+            if (source== 18) { if(destination== 8 && row[13]==2){ return true;}} 
+    
+    
+            if (source== 19) { if(destination== 9 && row[14]==2){ return true;}}
+            if (source== 19) { if(destination== 17 && row[18]==2){ return true;}}
+    
+            if (source== 20) { if(destination== 22 && row[21]==2){ return true;}} 
+            if (source== 20) { if(destination== 10 && row[15]==2){ return true;}} 
+            if (source== 20) { if(destination== 12 && row[16]==2){ return true;}} 
+           
+            if (source== 21) { if(destination== 23 && row[22]==2){ return true;}}
+            if (source== 21) { if(destination== 11 && row[16]==2){ return true;}}
+    
+            if (source== 22) { if(destination== 20 && row[21]==2){ return true;}} 
+            if (source== 22) { if(destination== 24 && row[23]==2){ return true;}} 
+            if (source== 22) { if(destination== 12 && row[17]==2){ return true;}}
+            if (source== 22) { if(destination== 10 && row[16]==2){ return true;}} 
+            if (source== 22) { if(destination== 14 && row[18]==2){ return true;}}
+    
+            if (source== 23) { if(destination== 13 && row[18]==2){ return true;}}
+            if (source== 23) { if(destination== 21 && row[22]==2){ return true;}}
+    
+            if (source== 24) { if(destination== 12 && row[18]==2){ return true;}} 
+            if (source== 24) { if(destination== 22 && row[23]==2){ return true;}} 
+            if (source== 24) { if(destination== 14 && row[19]==2){ return true;}} 
+            return false;
+     }
+     public boolean singleEating(int position) {
+        int[] line1 = {0, 1, 2, 3, 4};
+        int[] line2={5,6,7,8,9};
+        int[] line3={10,11,12,13,14};
+        int[] line4={15,16,17,18,19};
+        int[] line5={20,21,22,23,24};
+        int[] line6={0,5,10,15,20};
+        int[] line7={1,6,11,16,21};
+        int[] line8={2,7,12,17,22};
+        int[] line9={3,8,13,18,23};
+        int[] line10={4,9,14,19,24};
+        int[] line11={0,6,12,18,24};
+        int[] line12={4,8,12,16,20};
+    
+        for(int i=1; i <=3;i++){
+            if(line1[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line2[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line3[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line4[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line5[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line6[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line7[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line8[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line9[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line10[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+        for(int i=1; i <=3;i++){
+            if(line11[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        
+        }
+        for( i=1; i <=3;i++){
+            if(line12[i]==position){
+            if((row[i-1]==0 && row[i+1]==1)){
+                System.out.println("it is eating from " + (i+1) +" position  " + " to " + (i-1) +"at line 1" + "it is " + position);
+                singleEatingSource=i+1;
+                singleEatingDestination=i-1;
+                singleEatingPosition=position;
+                return true;
+            }
+            if (row[i-1]==1 && row[i+1]==0){
+                System.out.println("it is eating from " + (i-1) +" position  " + " to " + (i+1) +"at line 1" + "it is " + position);
+                singleEatingSource= i-1;
+                singleEatingDestination=i+1;
+                singleEatingPosition=position;
+                return true;
+            }
+        } 
+        }
+     } 
+     return false;
+    }
+
+
+
+
+    public int suggestMove(){
+        boolean eat;
+        int i;
+           //eating 
+        for( i=0;i<=24;i++){
+            if(row[i]==1){
+                for(int a=0;a<=24;a++){
+        eat = checkEating(i, a);
+        if((eat==true) && (row[a]==0)){
+           System.out.println("we are suggesting from eating section bot is suggesting source " + i + " and destination " + a);
+            botSuggestSource= i;
+            botSuggestDestination=a;
+            
+            return 0;
+        }
+        
+    }}
+     }
+       
+    //sure eat
+    for( i=0;i<=24;i++){
+        if(row[i]==1){
+            for(int a=0;a<=24;a++){
+                boolean check = checkLegalMoveAgain(i, a);
+                if(check==true){
+                    for(int j = 0; j<=24; j++){
+                   boolean forkeat = checkEating(a,j);
+                   if(row[j]==0){
+                   if (forkeat == true){
+                    boolean sureeat = singleEating(j);
+                    if(sureeat==true){
+                        System.out.println("we are suggesting from sure eat section bot is suggesting source " + i + " and destination " + a);
+                        botSuggestSource= i;
+                        botSuggestDestination=a;
+                    }
+                   }
+                    }}
+                
+    }
+    
+    }}
+    }
+    //move tiger to center after move 30
+    for( i=0;i<=24;i++){
+        if(move>=30){
+        if(row[i]==1){
+            boolean check = checkLegalMoveAgain(i, 12);
+           
+    if((check==true) && (row[12]==0)){
+       System.out.println("we are suggesting from center capture after move 30 section bot is suggesting source " + i + " and destination 12" );
+        botSuggestSource= i;
+        botSuggestDestination=12;
+        
+        return 0;
+    }
+}
+}
+    }   
+    
+    
+      
+    
+     
+     //forking
+    for( i=0;i<=24;i++){
+        if(row[i]==1){
+            for(int a=0;a<=24;a++){
+                boolean check = checkLegalMoveAgain(i, a);
+                if(check==true && row[a]==0){
+                    for(int j = 0; j<=24; j++){
+                   boolean forkeat = checkEating(a,j);
+                   if(row[j]==0){
+                   if (forkeat == true){
+                    System.out.println("start of forkeat");
+                    System.out.println(" we are suggesting from forking section the tiger placed at "+ i + " will have eating position when it moves. it will jump from" + a + "  to  " + j);
+                    System.out.println("we are suggesting from forking section bot is suggesting source " + i + " and destination " + a);
+                    System.out.println("end of forkeat");
+                    botSuggestSource=i;
+                    botSuggestDestination=a;
+                    return 0;
+                   }
+                    }}
+                }
+    eat = checkEating(i, a);
+    if(eat==true){
+        System.out.println("tiger is eating from " +i + " to " + a  );
+    }
+    
+    }}
+    }
+    //random section
+    for (int aa = 0; aa <= 100000; aa++) {
+        int randomTiger = 0;
+       
+        Random random = new Random();
+        int randomTigerNumber = random.nextInt(4) + 1;
+        System.out.println("the random number  of tiger generated is " + randomTigerNumber);
+    
+        for ( i = 0; i <= 24; i++) {
+            int legalRandomMove=0;
+            if (row[i] == 1) {
+                randomTiger++;
+            if (randomTigerNumber == randomTiger) {
+         for (int a = 0; a <= 24; a++) {
+                    boolean randomTigerMove = checkLegalMoveAgain(i, a);
+                    if (randomTigerMove == true) {
+                        legalRandomMove++;
+                    }
+                }
+                int randomTigerMoveNumberGenerated = randomTigerNumber = random.nextInt(legalRandomMove) + 1;
+                int count=0;
+                for (int a = 0; a <= 24; a++){
+                   
+                   boolean again = checkLegalMoveAgain(i,a);
+                    if(again==true){
+                        count++;
+                   if ((randomTigerMoveNumberGenerated == count) && (row[i]==1) && (row[a] == 0) ){
+                    System.out.println("we are suggesting from random section bot is suggesting source " + i + " and destination " + a);
+                            botSuggestSource = i;
+                            botSuggestDestination = a;
+                            return 0;
+                   }
+                }
+            }
+            
+            }
+        }
+        }
+
+   
+}
+    
+    return 0;
+    
+     }
+     public int Issue(){
+        for(int i =0;i<=2000;i++){
+            suggestMove();
+            source = botSuggestSource;
+            destination = botSuggestDestination;
+            boolean moveResult;
+            moveResult = Move(source, destination);
+            if(((row[source]==1) &&(moveResult==true)) &&  (row[destination]==0)){
+                // printBoard();
+                row[source]=0;
+                row[destination]=1;
+               
+                printBoard();
+                numberOfGoatEaten(goatused);
+                
+                System.out.println("new board");
+
+                disableTxtField();
+                move++;
+                tigermove++;
+                turnImagepath();
+
+                contentPane.repaint();
+        }return 0;
+    }
+    JOptionPane.showMessageDialog(null, "Please enter a valid goat move ");
+    return 0;
+     }
+   
+    
     public void actionPerformed(ActionEvent e) {
 	
         if (e.getSource() == tigerMoveButton) {
             try {
-                source = Integer.parseInt(SourceTextField.getText());
-                destination = Integer.parseInt(DestinationTextField.getText());
-				boolean moveResult;
-				moveResult = Move(source, destination);
-				if(((row[source]==1) &&(moveResult==true)) &&  (row[destination]==0)){
-                    // printBoard();
-                    row[source]=0;
-                    row[destination]=1;
-                    SourceTextField.setText("");
-                    DestinationTextField.setText("");
-                    printBoard();
-                    numberOfGoatEaten(goatused);
-                    
-                    System.out.println("new board");
-
-                    disableTxtField();
-                    move++;
-                    tigermove++;
-                    turnImagepath();
-
-                    contentPane.repaint();
+               int i = Issue();
                 }
-				else {
-					// Value is out of range, ask the user to enter again
-					JOptionPane.showMessageDialog(null, "Please enter a valid tiger move ");
-				}
-
-                
-
-            } catch (NumberFormatException ex) {
+			catch (NumberFormatException ex) {
                 System.out.println("Invalid input format. Please enter valid integers.");
             }
         }
@@ -127,7 +635,7 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
                 contentPane.repaint();
             } else {
                 // Value is out of range, ask the user to enter again
-                JOptionPane.showMessageDialog(null, "Please enter a value between 0 and 24.");
+                JOptionPane.showMessageDialog(null, " invalid move! insert a goat at empty place.");
             }
 			goatPlaced.setText("");
             printBoard();
@@ -156,30 +664,31 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
         if (move % 2 == 1) {
             if((move/2)<20){
             goatPlaced.setEditable(true);
-            SourceTextField.setEditable(false);
-            DestinationTextField.setEditable(false);
             goatSourceTextField.setEditable(false);
-            goatDestinationTextField.setEditable(false);
+            goatDestinationTextField.setEditable(false);tigerMoveButton.setEnabled(false);
+            goatMoveButton.setEnabled(false);
+            placeGoatOk.setEnabled(true);
             }
             else{
                 goatSourceTextField.setEditable(true);
                 goatDestinationTextField.setEditable(true);
-                 goatPlaced.setEditable(false);
-            SourceTextField.setEditable(false);
-            DestinationTextField.setEditable(false);
+                 goatPlaced.setEditable(false);tigerMoveButton.setEnabled(false);
+                 goatMoveButton.setEnabled(true);
+                 placeGoatOk.setEnabled(false);
             }
         } else {
             goatPlaced.setEditable(false);
-            SourceTextField.setEditable(true);
-            DestinationTextField.setEditable(true);
             goatSourceTextField.setEditable(false);
             goatDestinationTextField.setEditable(false);
+            tigerMoveButton.setEnabled(true);
+            goatMoveButton.setEnabled(false);
+            placeGoatOk.setEnabled(false);
         }
     }
 
     
 
-    public MultiPlayFrame() {
+    public BotFrame() {
 
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1200, 750);
@@ -191,10 +700,11 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 
 
+
         //side ko component
         //TURN_OF KO TEXT
         JLabel lblNewLabel_2 = new JLabel("TURN OF : ");
-        lblNewLabel_2.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
+        lblNewLabel_2.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
         lblNewLabel_2.setBounds(794, 29, 123, 23);
         contentPane.add(lblNewLabel_2);
 
@@ -207,7 +717,7 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
 
         //GOAT KILLED KO TEXT
         JLabel lblNewLabel_3 = new JLabel("GOAT KILLED :");
-        lblNewLabel_3.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
+        lblNewLabel_3.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
         lblNewLabel_3.setBounds(794, 114, 164, 23);
         contentPane.add(lblNewLabel_3);
 
@@ -221,25 +731,9 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
 		contentPane.add(goat_killed);
 		goat_killed.setColumns(10);
 
-        //tiger blocked ko text
-        JLabel lblNewLabel_4 = new JLabel("TIGER BLOCKED :");
-        lblNewLabel_4.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
-        lblNewLabel_4.setBounds(798, 176, 218, 26);
-        contentPane.add(lblNewLabel_4);
-
-        //tiger blocked textfiend
-        JTextField tiger_blocked;
-        tiger_blocked = new JTextField();
-		tiger_blocked.setText("0");
-		tiger_blocked.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		tiger_blocked.setBounds(1000, 179, 42, 26);
-		tiger_blocked.setEditable(false);
-		contentPane.add(tiger_blocked);
-		tiger_blocked.setColumns(10);
-
         //goat remaining text
         JLabel lblNewLabel_4_1 = new JLabel("GOAT REMAINING :");
-		lblNewLabel_4_1.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
+		lblNewLabel_4_1.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
 		lblNewLabel_4_1.setBounds(794, 147, 212, 23);
 		contentPane.add(lblNewLabel_4_1);
 
@@ -256,108 +750,38 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
         //entergoat position
         JLabel goat_position_label = new JLabel("Enter goat position");
 		goat_position_label.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		goat_position_label.setBounds(794, 249, 341, 26);
+		goat_position_label.setBounds(794, 236, 266, 23);
 		contentPane.add(goat_position_label);
 
-        
+        //Position text
         JLabel positionText = new JLabel("Position");
         positionText.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-        positionText.setBounds(794, 289, 105, 26);
+        positionText.setBounds(794, 269, 129, 23);
         contentPane.add(positionText);
 
+        //goat position ko textfield
         goatPlaced = new JTextField();
         goatPlaced.setColumns(10);
         goatPlaced.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-        goatPlaced.setBounds(922, 289, 42, 26);
+        goatPlaced.setBounds(910, 269, 37, 24);
         contentPane.add(goatPlaced);
 
+        //goat position ko Ok button
         placeGoatOk = new JButton("OK");
         placeGoatOk.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
-        placeGoatOk.setBounds(998, 285, 96, 29);
+        placeGoatOk.setBounds(984, 269, 96, 25);
         contentPane.add(placeGoatOk);
         placeGoatOk.addActionListener(this);
 
-JLabel tiger_position_label = new JLabel("Enter tiger position");
-		tiger_position_label.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		tiger_position_label.setBounds(794, 460, 341, 26);
-		contentPane.add(tiger_position_label);
-
-        //tiger ko source ko text
-        JLabel tiger_source = new JLabel("Source");
-		tiger_source.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		tiger_source.setBounds(798, 496, 91, 26);
-		contentPane.add(tiger_source);
-
-        //tiger ko source ko textfield
-        SourceTextField = new JTextField();
-        SourceTextField.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-        SourceTextField.setColumns(10);
-        SourceTextField.setBounds(924, 496, 42, 26);
-        contentPane.add(SourceTextField);
-
-        
-
-        // tiger ko destination ko text
-        JLabel tiger_dest = new JLabel("Dest");
-		tiger_dest.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		tiger_dest.setBounds(798, 532, 70, 26);
-		contentPane.add(tiger_dest);
-        
-        //tiger ko destination ko textfield
-        DestinationTextField = new JTextField();
-        DestinationTextField.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-        DestinationTextField.setColumns(10);
-        DestinationTextField.setBounds(922, 532, 42, 26);
-        contentPane.add(DestinationTextField);
-
-       
-
-        //tiger ko ok button
-        tigerMoveButton = new JButton("OK");
-        tigerMoveButton.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
-        tigerMoveButton.setBounds(1000, 532, 96, 29);
-        // Add ActionListener to the "OK" button
-        tigerMoveButton.addActionListener(this);
-        contentPane.add(tigerMoveButton);
-
-        // goat move
-
-        //goat ko source text
-        JLabel goat_source = new JLabel("Source");
-		goat_source.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		goat_source.setBounds(796, 325, 91, 26);
-		contentPane.add(goat_source);
-
-        //goat ko source ko text field
-        goatSourceTextField = new JTextField();
-        goatSourceTextField.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-        goatSourceTextField.setColumns(10);
-        goatSourceTextField.setBounds(922, 325, 42, 26);
-        contentPane.add(goatSourceTextField);
-
-        
-        // dest
-        JLabel goat_dest = new JLabel("Dest");
-		goat_dest.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-		goat_dest.setBounds(794, 362, 70, 26);
-		contentPane.add(goat_dest);
-		
-        //goat ko dest ko text field 
-        goatDestinationTextField = new JTextField();
-        goatDestinationTextField.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
-        goatDestinationTextField.setColumns(10);
-        goatDestinationTextField.setBounds(922, 362, 42, 26);
-        contentPane.add(goatDestinationTextField);
-        
-      //reset button
+        //reset button
         JButton btnNewButton = new JButton("RESET");
         btnNewButton.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
-		btnNewButton.setBounds(794, 640, 104, 35);
+		btnNewButton.setBounds(794, 606, 104, 35);
 		contentPane.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				MultiPlayStartup mainGame= new MultiPlayStartup();
+				BotFrameStartup mainGame= new BotFrameStartup();
 				 mainGame.main(null);
 			}
 		});
@@ -373,12 +797,50 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
 			}
 		});
 		exitButton.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
-		exitButton.setBounds(968, 640, 109, 35);
+		exitButton.setBounds(961, 606, 109, 35);
 		contentPane.add(exitButton);
+		
+        //tiger ko ok button
+        tigerMoveButton = new JButton("Ask bot to move");
+        tigerMoveButton.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
+        tigerMoveButton.setBounds(820, 445, 304, 29);
+        // Add ActionListener to the "OK" button
+        tigerMoveButton.addActionListener(this);
+        contentPane.add(tigerMoveButton);
 
+        // goat move
+
+        //goat ko source text
+        JLabel goat_source = new JLabel("Source");
+		goat_source.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
+		goat_source.setBounds(794, 302, 129, 23);
+		contentPane.add(goat_source);
+
+        //goat ko source ko text field
+        goatSourceTextField = new JTextField();
+        goatSourceTextField.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
+        goatSourceTextField.setColumns(10);
+        goatSourceTextField.setBounds(910, 305, 37, 24);
+        contentPane.add(goatSourceTextField);
+
+        
+        // dest
+        JLabel goat_dest = new JLabel("Dest");
+		goat_dest.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
+		goat_dest.setBounds(961, 302, 81, 23);
+		contentPane.add(goat_dest);
+		
+        //goat ko dest ko text field 
+        goatDestinationTextField = new JTextField();
+        goatDestinationTextField.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 20));
+        goatDestinationTextField.setColumns(10);
+        goatDestinationTextField.setBounds(1043, 302, 37, 24);
+        contentPane.add(goatDestinationTextField);
+
+        //goat ko source ra dest ko ok button
         goatMoveButton = new JButton("OK");
         goatMoveButton.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
-        goatMoveButton.setBounds(998, 362, 96, 29);
+        goatMoveButton.setBounds(910, 349, 96, 25);
         // Add ActionListener to the "OK" button
         goatMoveButton.addActionListener(this);
         contentPane.add(goatMoveButton);
@@ -400,41 +862,12 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
 	        }
         printBoard();
 
-        for (int i=0 ;i<=4 ;i++) {
-            for(int j=0 ;j<=4 ;j++){
-                final int finalI = i;
-                final int finalJ = j;
-                labels[i][j].addMouseListener(new java.awt.event.MouseAdapter() {
-                   public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        if (goatPlaced.isEditable()) {
-                            goatPlaced.setText(labels[finalI][finalJ].getText());
-                        }
-                        else if (goatSourceTextField.isEditable() && goatSourceTextField.getText().isEmpty()) {
-                                goatSourceTextField.setText(labels[finalI][finalJ].getText());                    }
-                        
-                        else if (goatDestinationTextField.isEditable() && goatDestinationTextField.getText().isEmpty()){ 
-                            
-                            goatDestinationTextField.setText(labels[finalI][finalJ].getText());
-
-                        }  
-     
-                        else if (SourceTextField.isEditable() && SourceTextField.getText().isEmpty()) {
-                            SourceTextField.setText(labels[finalI][finalJ].getText()); 
-                        }
-                        else if (DestinationTextField.isEditable() && DestinationTextField.getText().isEmpty()) {
-                        	DestinationTextField.setText(labels[finalI][finalJ].getText());                   
-                         }
-                     }
-                });
-            }
-        }
         // // board ko image display
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setBounds(0, 0, 751, 703);
         lblNewLabel.setIcon(new ImageIcon("src\\board.png"));
         contentPane.add(lblNewLabel);
 
-        
 
         disableTxtField();
         move++;
@@ -443,7 +876,7 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
     public void numberOfGoatEaten(int goatused) {
         int noOfGoatInBoard = 0;
         int r = 0; 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i <=24; i++) {
             if (row[i] == 2) {
                 noOfGoatInBoard++;
             }
@@ -453,7 +886,9 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
         int goatRemain=20-goatused;
         goat_remain.setText(Integer.toString(goatRemain));
         if (r>=5){
-            JOptionPane.showMessageDialog(null, "Goat loses");
+            
+        WinnerDisplay display= new WinnerDisplay();
+        display.setVisible(true);
         }
     }
     public void turnImagepath(){
@@ -512,7 +947,7 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
         if ((source == 13) && (destination == 8 || destination == 12 || destination == 14 || destination == 18)) {
             return true;
         }
-        if ((source == 14) && (destination == 9 || destination == 13 || destination == 19)) {
+        if ((source == 14) && (destination == 9 || destination == 13 || destination == 19 || destination == 8 || destination == 18)) {
             return true;
         }
         if ((source == 15) && (destination == 10 || destination == 16 || destination == 20)) {
@@ -602,7 +1037,7 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
         if ((source == 13) && (destination == 8 || destination == 12 || destination == 14 || destination == 18)) {
             return true;
         }
-        if ((source == 14) && (destination == 9 || destination == 13 || destination == 19)) {
+        if ((source == 14) && (destination == 9 || destination == 13 || destination == 18 || destination == 19 || destination == 8 )) {
             return true;
         }
         if ((source == 15) && (destination == 10 || destination == 16 || destination == 20)) {
@@ -1071,7 +1506,7 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
             }
         }
         if (source == 17) {
-            if (destination == 7 && row[2] == 2) {
+            if (destination == 7 && row[12] == 2) {
                 row[2] = 0;
                 i++;
                 return true;
@@ -1227,6 +1662,6 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
 
         return false;
     }
-
 }
+
 

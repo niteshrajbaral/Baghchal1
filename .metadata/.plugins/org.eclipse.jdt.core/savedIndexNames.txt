@@ -2,5 +2,4 @@ INDEX VERSION 1.132+C:\Users\DELL\Desktop\final-baghchal\New folder\.metadata\.p
 1865797976.index
 3959137331.index
 1772313059.index
-4155649471.index
 3212290314.index

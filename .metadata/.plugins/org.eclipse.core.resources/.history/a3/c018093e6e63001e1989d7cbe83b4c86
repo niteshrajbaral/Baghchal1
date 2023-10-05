@@ -65,8 +65,18 @@ public class NewGameFrame extends JFrame {
 		btnNewButton_2_1.setBorderPainted(false);
 		btnNewButton_2_1.setIcon(new ImageIcon("src\\bot.png"));
 		btnNewButton_2_1.setBackground(new Color(0, 102, 204));
-		btnNewButton_2_1.setBounds(657, 470, 324, 91);
+		btnNewButton_2_1.setBounds(657, 563, 324, 91);
 		contentPane.add(btnNewButton_2_1);
+		
+		JButton btnNewButton_2 = new JButton("Play with Friend");
+		btnNewButton_2.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnNewButton_2.setFont(new Font("Consolas", Font.PLAIN, 25));
+		btnNewButton_2.setBackground(new Color(0, 102, 204));
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setForeground(new Color(255, 255, 255));
+		btnNewButton_2.setIcon(new ImageIcon("src\\ph-wifi.png"));
+		btnNewButton_2.setBounds(657, 451, 324, 91);
+		contentPane.add(btnNewButton_2);
 		
 		
 		JButton btnNewButton = new JButton("Play Locally");

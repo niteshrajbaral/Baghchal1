@@ -30,7 +30,7 @@ public class NewGameFrame extends JFrame {
 	private JPanel contentPane;
 	java.util.Date date;
 	java.sql.Date sqldate;
-	public String username1;
+	public Preferences preferences;
 
 //	/**
 //	 * Launch the application.
@@ -39,7 +39,7 @@ public class NewGameFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewGameFrame frame = new NewGameFrame("Nitesh");
+					NewGameFrame frame = new NewGameFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,8 +53,7 @@ public class NewGameFrame extends JFrame {
 	 * Create the frame.
 	 */
 	
-	public NewGameFrame(String username1) {
-		this.username1=username1;
+	public NewGameFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1200, 750);
 		contentPane = new JPanel();

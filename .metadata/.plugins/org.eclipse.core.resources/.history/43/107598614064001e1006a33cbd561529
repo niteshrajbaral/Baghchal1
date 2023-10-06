@@ -99,7 +99,6 @@ public class NewGameFrame extends JFrame {
 				    }
 					String sql2="Insert into gamedetails(dateTime,playerID) values('"+formattedDateTime+"','"+playerID+"')";
 					stmt.executeUpdate(sql2);
-					System.out.println("Data inserted into gamedetails");
 					con.close();
 				}catch(Exception e1){
 					System.out.println(e1);

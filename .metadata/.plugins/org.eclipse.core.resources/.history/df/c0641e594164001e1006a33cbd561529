@@ -194,7 +194,7 @@ public class RegisterFrame extends JFrame {
 							if (rs.next())
 								JOptionPane.showMessageDialog(null, "E-mail already registered");
 							else {
-								String sql1="Insert into logindetails(username,password,email) values('"+username1+"','"+password1+"','"+email1+"')";
+								String sql1="Insert into logindetails values('"+username1+"','"+password1+"','"+email1+"')";
 								stmt.executeUpdate(sql1);
 								JOptionPane.showMessageDialog(null, msg+"Your account is sucessfully created. Proceed to login");
 								

@@ -26,7 +26,7 @@ public class MultiPlayStartup {
 
     public void displayBoardFromMain() {
         SwingUtilities.invokeLater(() -> {
-        	MultiPlayFrame Frame = new MultiPlayFrame(username1); // Pass the username to BotFrame's constructor
+            MultiplayFrame Frame = new MultiplayFrame(username1); // Pass the username to BotFrame's constructor
             Frame.setVisible(true);
         });
     }

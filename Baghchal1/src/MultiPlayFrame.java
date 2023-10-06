@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import javax.swing.border.EmptyBorder;
 
@@ -12,6 +18,8 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
     JTextField goat_remain;
     private JTextField goatPlaced;
     JLabel turn_label;
+    
+    String username1;
     
     private JButton tigerMoveButton;
     private JButton placeGoatOk;
@@ -179,8 +187,8 @@ public class MultiPlayFrame extends JFrame implements ActionListener {
 
     
 
-    public MultiPlayFrame() {
-
+    public MultiPlayFrame(String username1) {
+    	this.username1=username1;
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1200, 750);
 		contentPane = new JPanel();
@@ -357,8 +365,43 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				MultiPlayStartup mainGame= new MultiPlayStartup();
-				 mainGame.main(null);
+				// Get the current date and time
+		        LocalDateTime currentDateTime = LocalDateTime.now();
+
+		        // Define a custom date and time format
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		        // Format the current date and time as a string
+		        String formattedDateTime = currentDateTime.format(formatter);
+
+		        // Print the formatted date and time
+		        System.out.println("Current Date and Time: " + formattedDateTime);
+				Connection con=null;
+				
+				try {
+					con= (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlconnection","root","root");
+					if (con!=null) {
+						System.out.println("database is connected");
+					}
+					Statement stmt= con.createStatement();  
+					
+					String sql1="select playerID from loginDetails where username='"+username1+"'";
+					ResultSet rs= stmt.executeQuery(sql1);
+
+					int playerID=0;
+				    if(rs.next()) {
+				    	 
+		                playerID = rs.getInt("playerID");
+				    }
+					String sql2="Insert into gamedetails(dateTime,playerID) values('"+formattedDateTime+"','"+playerID+"')";
+					stmt.executeUpdate(sql2);
+					System.out.println("Data inserted into gamedetails");
+					con.close();
+				}catch(Exception e1){
+					System.out.println(e1);
+				}
+				MultiPlayStartup mainGame= new MultiPlayStartup(username1);
+				 mainGame.displayBoardFromMain();
 			}
 		});
 
@@ -368,7 +411,7 @@ JLabel tiger_position_label = new JLabel("Enter tiger position");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				WelcomeFrame frame= new WelcomeFrame();
+				WelcomeFrame frame= new WelcomeFrame(username1);
 				frame.setVisible(true);
 			}
 		});

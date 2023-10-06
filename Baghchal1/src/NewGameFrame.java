@@ -1,4 +1,5 @@
 import java.awt.Color;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,16 +14,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JButton;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.prefs.Preferences;
+
 
 public class NewGameFrame extends JFrame {
 
 	private JPanel contentPane;
+	java.util.Date date;
+	java.sql.Date sqldate;
+	public Preferences preferences;
 
-	/**
-	 * Launch the application.
-	 */
+//	/**
+//	 * Launch the application.
+//	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -35,10 +47,12 @@ public class NewGameFrame extends JFrame {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
 	 */
+	
 	public NewGameFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1200, 750);
@@ -56,6 +70,41 @@ public class NewGameFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BotFrameStartup start= new BotFrameStartup();
 				start.main(null);
+				// Get the current date and time
+		        LocalDateTime currentDateTime = LocalDateTime.now();
+
+		        // Define a custom date and time format
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		        // Format the current date and time as a string
+		        String formattedDateTime = currentDateTime.format(formatter);
+
+		        // Print the formatted date and time
+		        System.out.println("Current Date and Time: " + formattedDateTime);
+				Connection con=null;
+				
+				try {
+					con= (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlconnection","root","root");
+					if (con!=null) {
+						System.out.println("database is connected");
+					}
+					Statement stmt= con.createStatement();  
+					
+					String sql1="select playerID from loginDetails where username='"+username+"'";
+					ResultSet rs= stmt.executeQuery(sql1);
+
+					
+				    while (rs.next()) {
+				    	 
+		                playerID = rs.getInt("playerID");
+				    }
+					String sql2="Insert into gamedetails(dateTime,playerID) values('"+formattedDateTime+"','"+playerID+"')";
+					stmt.executeUpdate(sql2);
+					con.close();
+				}catch(Exception e1){
+					System.out.println(e1);
+				}
+					
 				dispose();
 			}
 		});

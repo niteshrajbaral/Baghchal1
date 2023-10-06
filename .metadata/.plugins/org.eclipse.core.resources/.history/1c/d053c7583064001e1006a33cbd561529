@@ -1,4 +1,5 @@
 import java.awt.Color;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,33 +14,47 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.JButton;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.prefs.Preferences;
+
 
 public class NewGameFrame extends JFrame {
 
 	private JPanel contentPane;
+	java.util.Date date;
+	java.sql.Date sqldate;
+	public Preferences preferences;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NewGameFrame frame = new NewGameFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					NewGameFrame frame = new NewGameFrame();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+//	
 
 	/**
 	 * Create the frame.
 	 */
-	public NewGameFrame() {
+	
+	public NewGameFrame(Preferences prefrences) {
+		this.preferences=preferences;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1200, 750);
 		contentPane = new JPanel();
@@ -56,6 +71,41 @@ public class NewGameFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				BotFrameStartup start= new BotFrameStartup();
 				start.main(null);
+				// Get the current date and time
+		        LocalDateTime currentDateTime = LocalDateTime.now();
+
+		        // Define a custom date and time format
+		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		        // Format the current date and time as a string
+		        String formattedDateTime = currentDateTime.format(formatter);
+
+		        // Print the formatted date and time
+		        System.out.println("Current Date and Time: " + formattedDateTime);
+				Connection con=null;
+				
+				try {
+					con= (Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/sqlconnection","root","root");
+					if (con!=null) {
+						System.out.println("database is connected");
+					}
+					Statement stmt= con.createStatement();  
+					
+					String sql1="select playerID from loginDetails where username='"+username+"'";
+					ResultSet rs= stmt.executeQuery(sql1);
+
+					
+				    while (rs.next()) {
+				    	 
+		                playerID = rs.getInt("playerID");
+				    }
+					String sql2="Insert into gamedetails(dateTime,playerID) values('"+formattedDateTime+"','"+playerID+"')";
+					stmt.executeUpdate(sql2);
+					con.close();
+				}catch(Exception e1){
+					System.out.println(e1);
+				}
+					
 				dispose();
 			}
 		});
@@ -65,18 +115,8 @@ public class NewGameFrame extends JFrame {
 		btnNewButton_2_1.setBorderPainted(false);
 		btnNewButton_2_1.setIcon(new ImageIcon("src\\bot.png"));
 		btnNewButton_2_1.setBackground(new Color(0, 102, 204));
-		btnNewButton_2_1.setBounds(657, 563, 324, 91);
+		btnNewButton_2_1.setBounds(657, 470, 324, 91);
 		contentPane.add(btnNewButton_2_1);
-		
-		JButton btnNewButton_2 = new JButton("Play with Friend");
-		btnNewButton_2.setVerticalTextPosition(SwingConstants.BOTTOM);
-		btnNewButton_2.setFont(new Font("Consolas", Font.PLAIN, 25));
-		btnNewButton_2.setBackground(new Color(0, 102, 204));
-		btnNewButton_2.setBorderPainted(false);
-		btnNewButton_2.setForeground(new Color(255, 255, 255));
-		btnNewButton_2.setIcon(new ImageIcon("src\\ph-wifi.png"));
-		btnNewButton_2.setBounds(657, 451, 324, 91);
-		contentPane.add(btnNewButton_2);
 		
 		
 		JButton btnNewButton = new JButton("Play Locally");

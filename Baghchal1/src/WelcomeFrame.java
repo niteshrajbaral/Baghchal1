@@ -10,12 +10,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
 
 public class WelcomeFrame extends JFrame {
 
 	private JPanel contentPane;
+	public String username;
+	public Preferences preferences;
 
 	/**
 	 * Launch the application.
@@ -37,6 +40,7 @@ public class WelcomeFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public WelcomeFrame() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 1200, 750);
 		contentPane = new JPanel();
@@ -119,4 +123,5 @@ public class WelcomeFrame extends JFrame {
 		lblNewLabel.setBounds(190, 0, 766, 723);
 		contentPane.add(lblNewLabel);
 	}
+
 }

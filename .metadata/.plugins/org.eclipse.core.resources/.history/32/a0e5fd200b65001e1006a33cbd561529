@@ -13,18 +13,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class StatTable extends JFrame {
 
 	private JPanel contentPane;
-	String username1;
 	private JTable table;
-	private JScrollPane scrollPane;
+	String username1;
 	/**
 	 * Launch the application.
 	 */
@@ -54,7 +54,14 @@ public class StatTable extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(954, 464, -883, -372);
+		contentPane.add(scrollPane);
+		
 		DefaultTableModel model = new DefaultTableModel();
+		table = new JTable(model);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPane.setViewportView(table);
 		
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
@@ -66,13 +73,6 @@ public class StatTable extends JFrame {
 		btnExit.setBounds(784, 529, 174, 44);
 		contentPane.add(btnExit);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(82, 48, 859, 435);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		
 		Connection con=null;
 		
 		try {
@@ -83,23 +83,20 @@ public class StatTable extends JFrame {
 			}
 			Statement stmt= con.createStatement();  
 			
-			String sql2="select g.gameID,g.dateTime,l.username from gamedetails g join logindetails l on g.playerID=l.playerID and l.username='"+username1+"'";
+			String sql2="select g.gameID,g.dateTime from gamedetails g join logindetails l on g.playerID=l.playerID and l.username='"+username1+"'";
 			ResultSet rs= stmt.executeQuery(sql2);
 			java.sql.ResultSetMetaData rsmd=rs.getMetaData();
-			model=(DefaultTableModel) table.getModel();
-			
 			int cols = rsmd.getColumnCount();
 			String[] colName= new String[cols];
             for (int i=0; i<cols; i++) {
                 colName[i]=rsmd.getColumnName(i+1);
             }
             model.setColumnIdentifiers(colName);
-            String gameID,dateTime,username;
+            String gameID,name;
             while (rs.next()) {
                 gameID = rs.getString(1);
-                dateTime=rs.getString(2);
-                username=rs.getString(3);
-                String[] rowData= {gameID,dateTime,username};
+                name=rs.getString(2);
+                String[] rowData= {gameID,name};
                 model.addRow(rowData);
              }
              stmt.close();

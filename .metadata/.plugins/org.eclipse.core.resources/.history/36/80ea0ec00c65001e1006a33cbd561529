@@ -13,9 +13,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -83,23 +84,20 @@ public class StatTable extends JFrame {
 			}
 			Statement stmt= con.createStatement();  
 			
-			String sql2="select g.gameID,g.dateTime,l.username from gamedetails g join logindetails l on g.playerID=l.playerID and l.username='"+username1+"'";
+			String sql2="select g.gameID,g.dateTime from gamedetails g join logindetails l on g.playerID=l.playerID and l.username='"+username1+"'";
 			ResultSet rs= stmt.executeQuery(sql2);
 			java.sql.ResultSetMetaData rsmd=rs.getMetaData();
-			model=(DefaultTableModel) table.getModel();
-			
 			int cols = rsmd.getColumnCount();
 			String[] colName= new String[cols];
             for (int i=0; i<cols; i++) {
                 colName[i]=rsmd.getColumnName(i+1);
             }
             model.setColumnIdentifiers(colName);
-            String gameID,dateTime,username;
+            String gameID,name;
             while (rs.next()) {
                 gameID = rs.getString(1);
-                dateTime=rs.getString(2);
-                username=rs.getString(3);
-                String[] rowData= {gameID,dateTime,username};
+                name=rs.getString(2);
+                String[] rowData= {gameID,name};
                 model.addRow(rowData);
              }
              stmt.close();

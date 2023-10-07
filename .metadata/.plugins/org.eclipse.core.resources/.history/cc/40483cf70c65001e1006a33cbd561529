@@ -94,12 +94,11 @@ public class StatTable extends JFrame {
                 colName[i]=rsmd.getColumnName(i+1);
             }
             model.setColumnIdentifiers(colName);
-            String gameID,dateTime,username;
+            String gameID,name;
             while (rs.next()) {
                 gameID = rs.getString(1);
-                dateTime=rs.getString(2);
-                username=rs.getString(3);
-                String[] rowData= {gameID,dateTime,username};
+                name=rs.getString(2);
+                String[] rowData= {gameID,name};
                 model.addRow(rowData);
              }
              stmt.close();

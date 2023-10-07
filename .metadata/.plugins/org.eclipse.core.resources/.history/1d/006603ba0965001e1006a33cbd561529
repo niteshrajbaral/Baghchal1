@@ -94,7 +94,7 @@ public class StatTable extends JFrame {
              }
              stmt.close();
              con.close();
-
+//			DefaultTableModel model=(DefaultTableModel)table.getModel();
 		}catch(Exception e1){
 			System.out.println(e1);
 		}

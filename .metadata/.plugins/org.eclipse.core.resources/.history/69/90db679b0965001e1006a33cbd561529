@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.swing.border.LineBorder;
+
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
@@ -22,7 +24,7 @@ public class StatTable extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
-	String username1;
+
 	/**
 	 * Launch the application.
 	 */
@@ -30,7 +32,7 @@ public class StatTable extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					StatTable frame = new StatTable("Nitesh");
+					StatTable frame = new StatTable();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,8 +44,7 @@ public class StatTable extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public StatTable(String username1) {
-		this.username1=username1;
+	public StatTable() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1024, 640);
 		contentPane = new JPanel();
@@ -94,7 +95,7 @@ public class StatTable extends JFrame {
              }
              stmt.close();
              con.close();
-
+//			DefaultTableModel model=(DefaultTableModel)table.getModel();
 		}catch(Exception e1){
 			System.out.println(e1);
 		}

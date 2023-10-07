@@ -17,8 +17,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class StatTable extends JFrame {
 
@@ -64,11 +62,6 @@ public class StatTable extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
 		btnExit.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 18));
 		btnExit.setBounds(784, 529, 174, 44);
 		contentPane.add(btnExit);
@@ -101,7 +94,7 @@ public class StatTable extends JFrame {
              }
              stmt.close();
              con.close();
-//			DefaultTableModel model=(DefaultTableModel)table.getModel();
+
 		}catch(Exception e1){
 			System.out.println(e1);
 		}

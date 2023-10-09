@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import com.mysql.cj.jdbc.result.ResultSetMetaData;
+ import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
